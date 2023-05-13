@@ -25,7 +25,7 @@ public class JwtUtil {
     }
     public String generateToken(LoginRequestBody login) {
         Map<String, Object> claims = new HashMap<>();
-        List<String> a = new ArrayList<String>();
+        List<String> a = new ArrayList<>();
         a.add(login.getUsername());
         a.add(login.getPass());
         System.out.println("pass : " + login.getPass());
