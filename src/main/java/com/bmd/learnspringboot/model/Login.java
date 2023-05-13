@@ -1,5 +1,6 @@
 package com.bmd.learnspringboot.model;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.*;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
@@ -12,9 +13,10 @@ import org.springframework.data.mongodb.core.mapping.Document;
 @Document("login")
 public class Login {
 
-    @Id
-    private String id;
+
     private String username;
+
+    @JsonProperty("pass")
     private String pass;
 
 }
