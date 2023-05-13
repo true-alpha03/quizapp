@@ -19,10 +19,5 @@ public class LoginService {
         return loginRepository.getByUsername(username);
     }
 
-    public List<Login> findByusernameandpassword(String username, String password) {
-
-
-        return loginRepository.findByusernameandpassword(username,password);
-    }
 
 }

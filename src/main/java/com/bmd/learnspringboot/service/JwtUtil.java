@@ -1,16 +1,11 @@
 package com.bmd.learnspringboot.service;
 
-import com.bmd.learnspringboot.controller.LoginRequestBody;
-import com.bmd.learnspringboot.model.Login;
-import com.bmd.learnspringboot.repositories.LoginRepository;
+import com.bmd.learnspringboot.model.RequestBody.LoginRequestBody;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
-import lombok.Data;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.context.annotation.PropertySource;
 
 import org.springframework.stereotype.Component;
-import org.springframework.stereotype.Service;
 
 import java.util.*;
 
