@@ -14,7 +14,6 @@ public class LoginService {
     public LoginService(LoginRepository loginRepository) {
         this.loginRepository = loginRepository;
     }
-
     public Optional<Login> getByUsername(String username) {
         return loginRepository.getByUsername(username);
     }
