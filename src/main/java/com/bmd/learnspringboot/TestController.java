@@ -22,15 +22,9 @@ public class TestController {
         this.loginService = loginService;
     }
 
-    @GetMapping("/login")
+    @GetMapping("/test")
     public ResponseEntity<String> fun(@RequestParam String username, String pass){
-        Optional<Login> optionalLogin = loginService.getByUsername(username);
-        if(optionalLogin.isPresent()){
-            if(optionalLogin.get().getPass().equals(pass)) {
-                return ResponseEntity.ok("ok");
-            }
-        }
-        return ResponseEntity.ok("invalid");
+        return ResponseEntity.ok("working");
     }
 
 }
