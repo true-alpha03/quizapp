@@ -2,6 +2,7 @@ package com.bmd.learnspringboot.controller;
 
 
 import com.bmd.learnspringboot.model.Login;
+import com.bmd.learnspringboot.model.RequestBody.LoginRequestBody;
 import com.bmd.learnspringboot.repositories.LoginRepository;
 import com.bmd.learnspringboot.service.JwtUtil;
 import lombok.Data;

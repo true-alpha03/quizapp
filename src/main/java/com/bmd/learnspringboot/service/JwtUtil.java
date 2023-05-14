@@ -1,5 +1,6 @@
 package com.bmd.learnspringboot.service;
 
+<<<<<<< HEAD
 import com.bmd.learnspringboot.controller.LoginRequestBody;
 import com.bmd.learnspringboot.model.Login;
 import com.bmd.learnspringboot.repositories.LoginRepository;
@@ -8,11 +9,14 @@ import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import lombok.Data;
 import lombok.val;
+=======
+import com.bmd.learnspringboot.model.RequestBody.LoginRequestBody;
+import io.jsonwebtoken.Jwts;
+import io.jsonwebtoken.SignatureAlgorithm;
+>>>>>>> a0e8ef36710716f1370aaec428c6b777b4c12a4c
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.context.annotation.PropertySource;
 
 import org.springframework.stereotype.Component;
-import org.springframework.stereotype.Service;
 
 import java.security.Key;
 import java.util.*;
@@ -48,7 +52,7 @@ public class JwtUtil {
     }
     public String generateToken(LoginRequestBody login) {
         Map<String, Object> claims = new HashMap<>();
-        List<String> a = new ArrayList<String>();
+        List<String> a = new ArrayList<>();
         a.add(login.getUsername());
         a.add(login.getPass());
         System.out.println("pass : " + login.getPass());

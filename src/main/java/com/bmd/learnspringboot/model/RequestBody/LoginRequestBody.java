@@ -1,4 +1,4 @@
-package com.bmd.learnspringboot.controller;
+package com.bmd.learnspringboot.model.RequestBody;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Data;
@@ -8,7 +8,6 @@ public
 class LoginRequestBody {
     @JsonProperty("username")
     String username;
-
     @JsonProperty("pass")
     String pass;
 }
