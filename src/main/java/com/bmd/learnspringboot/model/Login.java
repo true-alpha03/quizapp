@@ -18,13 +18,16 @@ public class Login {
     private String username;
     private String pass;
     private String resetToken;
+
+    private String semester;
     private LocalDateTime tokenCreationTime;
     //private LocalDateTime tokenCreationTime;
 
-    public Login(String username, String pass, String resetToken, LocalDateTime tokenCreationTime) {
+    public Login(String username, String pass, String resetToken,String semester ,LocalDateTime tokenCreationTime) {
         this.username = username;
         this.pass = pass;
         this.resetToken = resetToken;
+        this.semester = semester;
         this.tokenCreationTime = tokenCreationTime;
     }
 }

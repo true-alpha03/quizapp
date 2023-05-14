@@ -4,6 +4,7 @@ package com.bmd.learnspringboot.controller;
 import com.bmd.learnspringboot.model.Login;
 import com.bmd.learnspringboot.model.RequestBody.LoginRequestBody;
 import com.bmd.learnspringboot.model.RequestBody.ResetPasswordRequestBody;
+import com.bmd.learnspringboot.repositories.CourseRepository;
 import com.bmd.learnspringboot.repositories.LoginRepository;
 import com.bmd.learnspringboot.service.EmailService;
 import com.bmd.learnspringboot.service.EncodersAndHashingService;
@@ -33,6 +34,9 @@ public class LoginController {
     @Autowired
     private EmailService emailService;
 
+    @Autowired
+    private CourseRepository courseRepository;
+
     public LoginController(LoginService loginService, EncodersAndHashingService encodersAndHashingService, LoginRepository loginRepository, JwtUtil jwtUtil) {
         this.loginService = loginService;
         this.encodersAndHashingService = encodersAndHashingService;
@@ -48,10 +52,11 @@ public class LoginController {
     public ResponseEntity<?> studentLogin(@RequestBody final LoginRequestBody login) {
         if(loginRepository.findByusernameandpassword(login.getUsername(),login.getPass()).size() != 0) {
             final String jwtToken = jwtUtil.generateToken(login);
-            HashMap<String, String> res = new HashMap<>();
+            HashMap<String,Object> res = new HashMap<>();
             res.put("secretToken",jwtToken);
             res.put("username",login.getUsername());
             res.put("password",login.getPass());
+            res.put("courses",courseRepository.findBySemester(login.getSemester()));
             return ResponseEntity.status(200).body(res);
         }
         else {

@@ -10,4 +10,7 @@ class LoginRequestBody {
     String username;
     @JsonProperty("pass")
     String pass;
+
+    @JsonProperty("semester")
+    String semester;
 }
