@@ -24,16 +24,16 @@ import java.util.Optional;
 
 @RestController
 @RequestMapping("/student")
-public class StudentController {
+public class LoginController {
     private final LoginService loginService;
     private final EncodersAndHashingService encodersAndHashingService;
     private final LoginRepository loginRepository;
     private final JwtUtil jwtUtil;
-    private static final Logger logger = LoggerFactory.getLogger(StudentController.class);
+    private static final Logger logger = LoggerFactory.getLogger(LoginController.class);
     @Autowired
     private EmailService emailService;
 
-    public StudentController(LoginService loginService, EncodersAndHashingService encodersAndHashingService, LoginRepository loginRepository, JwtUtil jwtUtil) {
+    public LoginController(LoginService loginService, EncodersAndHashingService encodersAndHashingService, LoginRepository loginRepository, JwtUtil jwtUtil) {
         this.loginService = loginService;
         this.encodersAndHashingService = encodersAndHashingService;
         this.loginRepository = loginRepository;
