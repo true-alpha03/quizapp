@@ -24,7 +24,7 @@ public class TestController {
 
     @GetMapping("/test")
     public ResponseEntity<String> fun(){
-        return ResponseEntity.ok("Checking if background works");
+        return ResponseEntity.ok("Final Check");
     }
 
 }
