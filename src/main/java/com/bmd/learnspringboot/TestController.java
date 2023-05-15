@@ -24,7 +24,7 @@ public class TestController {
 
     @GetMapping("/test")
     public ResponseEntity<String> fun(){
-        return ResponseEntity.ok("working Good");
+        return ResponseEntity.ok("working well");
     }
 
 }
