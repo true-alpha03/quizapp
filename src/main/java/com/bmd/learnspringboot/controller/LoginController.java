@@ -55,7 +55,6 @@ public class LoginController {
             HashMap<String,Object> res = new HashMap<>();
             res.put("secretToken",jwtToken);
             res.put("username",login.getUsername());
-            res.put("password",login.getPass());
             res.put("courses",courseRepository.findBySemester(login.getSemester()));
             return ResponseEntity.status(200).body(res);
         }
@@ -98,6 +97,7 @@ public class LoginController {
                 login.setPass(requestBody.getPassword());
                 login.setResetToken("");
                 loginRepository.save(login);
+                logger.debug("Token is valid and password updated");
                 return ResponseEntity.status(200).body("Password Updated");
             }
             login.setResetToken("");
