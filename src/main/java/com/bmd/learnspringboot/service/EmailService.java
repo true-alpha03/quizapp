@@ -8,12 +8,15 @@ import org.springframework.stereotype.Service;
 import org.thymeleaf.TemplateEngine;
 import jakarta.mail.internet.MimeMessage;
 import org.thymeleaf.context.Context;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 
 @Service
 public class EmailService {
     private final JavaMailSender javaMailSender;
     private final TemplateEngine templateEngine;
+    private final Logger logger = LoggerFactory.getLogger(EmailService.class);
 
     @Autowired
     public EmailService(JavaMailSender javaMailSender, TemplateEngine templateEngine) {
@@ -30,9 +33,9 @@ public class EmailService {
         context.setVariable("resetUrl", "https://www.google.com/");
         try {
             sendResetPasswordEmail(to, subject, template, context);
-            System.out.println("Email sent successfully.");
+            logger.debug("Email sent successfully.");
         } catch (MessagingException e) {
-            System.out.println("Failed to send email: " + e.getMessage());
+            logger.debug("Failed to send email: " + e.getMessage());
         }
     }
     public void sendResetPasswordEmail(String[] to, String subject, String template, Context context) throws MessagingException {

@@ -19,9 +19,8 @@ public class Login {
     private String pass;
     private String resetToken;
     private LocalDateTime tokenCreationTime;
-    //private LocalDateTime tokenCreationTime;
 
-    public Login(String username, String pass, String resetToken, LocalDateTime tokenCreationTime) {
+    public Login(String username, String pass, String resetToken ,LocalDateTime tokenCreationTime) {
         this.username = username;
         this.pass = pass;
         this.resetToken = resetToken;

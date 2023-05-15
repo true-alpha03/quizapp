@@ -1,16 +1,13 @@
 package com.bmd.learnspringboot.service;
 
 import com.bmd.learnspringboot.model.RequestBody.LoginRequestBody;
-
+import io.jsonwebtoken.SignatureAlgorithm;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
-import java.security.Key;
 import java.util.*;
 
 import static io.jsonwebtoken.Jwts.builder;
-import io.jsonwebtoken.SignatureAlgorithm;
-import io.jsonwebtoken.security.Keys;
 @Component
 
 
@@ -33,8 +30,6 @@ public class JwtUtil {
         List<String> a = new ArrayList<>();
         a.add(login.getUsername());
         a.add(login.getPass());
-        System.out.println("pass : " + login.getPass());
-
         return createToken(claims, a);
     }
 
