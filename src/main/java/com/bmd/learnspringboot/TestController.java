@@ -23,8 +23,8 @@ public class TestController {
     }
 
     @GetMapping("/test")
-    public ResponseEntity<String> fun(@RequestParam String username, String pass){
-        return ResponseEntity.ok("working");
+    public ResponseEntity<String> fun(){
+        return ResponseEntity.ok("working Good");
     }
 
 }
