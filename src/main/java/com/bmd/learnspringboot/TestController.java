@@ -24,7 +24,7 @@ public class TestController {
 
     @GetMapping("/test")
     public ResponseEntity<String> fun(){
-        return ResponseEntity.ok("Final Check");
+        return ResponseEntity.ok("If you can see this,then CI/CD works");
     }
 
 }
