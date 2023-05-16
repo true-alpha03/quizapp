@@ -26,7 +26,6 @@ public class TestController {
 
     @GetMapping("/test")
     public ResponseEntity<String> fun(){
-        logger.info("Can you see this ? ;-)");
         return ResponseEntity.ok("Checking if logging works");
     }
 
