@@ -1,6 +1,7 @@
 package com.bmd.learnspringboot.controller;
 
 
+import com.bmd.learnspringboot.model.Course;
 import com.bmd.learnspringboot.model.Login;
 import com.bmd.learnspringboot.model.RequestBody.LoginRequestBody;
 import com.bmd.learnspringboot.model.RequestBody.ResetPasswordRequestBody;
@@ -20,6 +21,8 @@ import org.springframework.http.ResponseEntity;
 import java.time.Duration;
 import java.time.LocalDateTime;
 import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 
@@ -50,13 +53,13 @@ public class LoginController {
      * @param login model which has values username and password
      */
     @PostMapping("/login")
-    public ResponseEntity<?> studentLogin(@RequestBody final LoginRequestBody login) {
+    private ResponseEntity<?> studentLogin(@RequestBody final LoginRequestBody login) {
         if(loginRepository.findByusernameandpassword(login.getUsername(),login.getPass()).size() != 0) {
             final String jwtToken = jwtUtil.generateToken(login);
             HashMap<String,Object> res = new HashMap<>();
             res.put("secretToken",jwtToken);
             res.put("username",login.getUsername());
-            res.put("courses",courseRepository.findBySemester(login.getSemester()));
+            //res.put("courses",courseRepository.findBySemester(login.getSemester()));
             return ResponseEntity.status(200).body(res);
         }
         else {
@@ -72,23 +75,27 @@ public class LoginController {
     private ResponseEntity<?> requestResetMail(@RequestParam String username) {
         username = username.toUpperCase();
         Optional<Login> optionalLogin = loginService.getByUsername(username);
+        Map <String, String> res = new HashMap<>();
         if(optionalLogin.isPresent()){
             Login login = optionalLogin.get();
             LocalDateTime localDateTime = LocalDateTime.now();
             login.setResetToken(encodersAndHashingService.generateResetToken(username).replaceAll("&",""));
             login.setTokenCreationTime(localDateTime);
             loginRepository.save(login);
-            logger.info("Going to send the mail");
+            logger.debug("Going to send the mail : "+username);
             emailService.sendResetEmail(username+"@cb.students.amrita.edu");
-            logger.info("Mail Sent Successfully");
-            return ResponseEntity.status(200).body("Ok");
+            logger.debug("Mail Sent Successfully: "+username);
+            res.put("message","Reset Link sent");
+            return ResponseEntity.status(200).body(res);
         }
-        return ResponseEntity.status(404).body("Invalid Username");
+        res.put("message","Invalid username");
+        return ResponseEntity.status(404).body(res);
     }
 
     @PostMapping("/resetpass")
-    public ResponseEntity<?> updatePassword(@RequestBody final ResetPasswordRequestBody requestBody) {
+    private ResponseEntity<?> updatePassword(@RequestBody final ResetPasswordRequestBody requestBody) {
         Optional<Login> optionalLogin = loginRepository.getByResetToken(requestBody.getResetToken());
+        Map<String, String> res = new HashMap<>();
         if(optionalLogin.isPresent()){
             Login login = optionalLogin.get();
             LocalDateTime startTime = login.getTokenCreationTime();
@@ -99,20 +106,33 @@ public class LoginController {
                 login.setResetToken("");
                 loginRepository.save(login);
                 logger.debug("Token is valid and password updated");
-                return ResponseEntity.status(200).body("Password Updated");
+                res.put("message","Updates password");
+                return ResponseEntity.status(408).body(res);
             }
-            login.setResetToken("");
-            loginRepository.save(login);
-            logger.debug("Token exists but Expired");
+            res.put("message","Reset link expired");
+            return ResponseEntity.status(408).body(res);
         }
         logger.debug("Token is Invalid");
-        return ResponseEntity.status(404).body("Invalid Reset Link or Link Expired");
+        res.put("message","Invalid reset link");
+        return ResponseEntity.status(400).body(res);
 
     }
 
-
-
-
+    @GetMapping("/courses")
+    private ResponseEntity<?> coursesInSemester(@RequestParam String semester){
+        Optional<List<Course>> courseList= Optional.ofNullable(courseRepository.findBySemester(semester));
+        Map<String, Object> res = new HashMap<>();
+        if(courseList.isPresent()){
+            if (courseList.get().size()>0){
+                logger.debug("Courses found");
+                res.put("courses",courseList.get());
+                return ResponseEntity.status(200).body(res);
+            }
+        }
+        logger.debug("Courses not found");
+        res.put("message","Invalid semester");
+        return ResponseEntity.status(404).body(res);
+    }
 
 
 }

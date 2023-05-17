@@ -4,6 +4,7 @@ import jakarta.mail.MessagingException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 import org.thymeleaf.TemplateEngine;
 import jakarta.mail.internet.MimeMessage;
@@ -24,6 +25,7 @@ public class EmailService {
         this.templateEngine = templateEngine;
     }
 
+    @Async
     public void sendResetEmail(String uname) {
         String[] to = {uname};
         String subject = "Request to reset password";
@@ -33,7 +35,7 @@ public class EmailService {
         context.setVariable("resetUrl", "https://www.google.com/");
         try {
             sendResetPasswordEmail(to, subject, template, context);
-            logger.debug("Email sent successfully.");
+            logger.debug("Email sent successfully to : "+uname);
         } catch (MessagingException e) {
             logger.debug("Failed to send email: " + e.getMessage());
         }
