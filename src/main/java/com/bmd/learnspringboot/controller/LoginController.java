@@ -98,22 +98,24 @@ public class LoginController {
         Optional<Login> optionalLogin = loginRepository.getByResetToken(requestBody.getResetToken());
         Map<String, String> res = new HashMap<>();
         if(optionalLogin.isPresent()){
+            logger.info(requestBody.getResetToken());
             Login login = optionalLogin.get();
             LocalDateTime startTime = login.getTokenCreationTime();
             LocalDateTime endTime = LocalDateTime.now();
             Duration duration = Duration.between(startTime,endTime);
+            logger.info(String.valueOf(duration.toSeconds()));
             if(duration.toSeconds()<=600) {
                 login.setPass(requestBody.getPassword());
                 login.setResetToken("");
                 loginRepository.save(login);
-                logger.debug("Token is valid and password updated");
+                logger.info("Token is valid and password updated : "+requestBody.getResetToken());
                 res.put("message","Updates password");
-                return ResponseEntity.status(408).body(res);
+                return ResponseEntity.status(200).body(res);
             }
             res.put("message","Reset link expired");
             return ResponseEntity.status(408).body(res);
         }
-        logger.debug("Token is Invalid");
+        logger.info("Token is Invalid : "+requestBody.getResetToken());
         res.put("message","Invalid reset link");
         return ResponseEntity.status(400).body(res);
 
