@@ -26,16 +26,17 @@ public class EmailService {
     }
 
     @Async
-    public void sendResetEmail(String uname) {
-        String[] to = {uname};
+    public void sendResetEmail(String uname,String token) {
+        String email = uname+"@cb.students.amrita.edu";
+        String[] to = {email};
         String subject = "Request to reset password";
         String template = "reset"; // Name of your HTML email template file without the extension
         // Create a Thymeleaf context with any required variables for the template
         Context context = new Context();
-        context.setVariable("resetUrl", "https://www.google.com/");
+        context.setVariable("resetUrl", "http://34.125.151.233:3000/resetpass?resetToken="+token);
         try {
             sendResetPasswordEmail(to, subject, template, context);
-            logger.debug("Email sent successfully to : "+uname);
+            logger.debug("Email sent successfully to : "+email);
         } catch (MessagingException e) {
             logger.debug("Failed to send email: " + e.getMessage());
         }

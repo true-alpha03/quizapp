@@ -79,11 +79,12 @@ public class LoginController {
         if(optionalLogin.isPresent()){
             Login login = optionalLogin.get();
             LocalDateTime localDateTime = LocalDateTime.now();
-            login.setResetToken(encodersAndHashingService.generateResetToken(username).replaceAll("&",""));
+            String resetToken = encodersAndHashingService.generateResetToken(username).replaceAll("&","");
+            login.setResetToken(resetToken);
             login.setTokenCreationTime(localDateTime);
             loginRepository.save(login);
             logger.debug("Going to send the mail : "+username);
-            emailService.sendResetEmail(username+"@cb.students.amrita.edu");
+            emailService.sendResetEmail(username,resetToken);
             logger.debug("Mail Sent Successfully: "+username);
             res.put("message","Reset Link sent");
             return ResponseEntity.status(200).body(res);
