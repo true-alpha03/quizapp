@@ -16,6 +16,8 @@ public class Login {
     @Id
     private String id;
     private String username;
+    private String name;
+    private String dp;
     private String pass;
     private String resetToken;
     private LocalDateTime tokenCreationTime;

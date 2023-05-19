@@ -54,16 +54,19 @@ public class LoginController {
      */
     @PostMapping("/login")
     private ResponseEntity<?> studentLogin(@RequestBody final LoginRequestBody login) {
-        if(loginRepository.findByusernameandpassword(login.getUsername(),login.getPass()).size() != 0) {
+        List<Login> loginInfo = loginRepository.findByusernameandpassword(login.getUsername(),login.getPass());
+        HashMap<String,Object> res = new HashMap<>();
+        if(loginInfo.size() != 0) {
             final String jwtToken = jwtUtil.generateToken(login);
-            HashMap<String,Object> res = new HashMap<>();
             res.put("secretToken",jwtToken);
             res.put("username",login.getUsername());
-            //res.put("courses",courseRepository.findBySemester(login.getSemester()));
+            res.put("name",loginInfo.get(0).getName());
+            res.put("dp",loginInfo.get(0).getDp());
             return ResponseEntity.status(200).body(res);
         }
         else {
-            return ResponseEntity.status(404).body("User not found");
+            res.put("message","Invalid username or password");
+            return ResponseEntity.status(404).body(res);
         }
     }
 
