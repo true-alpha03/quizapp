@@ -65,7 +65,7 @@ public class StudentController {
             else{
                 HashMap<String,String> resp = new HashMap<>();
                 resp.put("message","No quizzes found");
-                return  ResponseEntity.status(404).body(resp);
+                return  ResponseEntity.status(200).body(resp);
             }
         }
         else {
