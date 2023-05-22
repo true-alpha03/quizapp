@@ -2,23 +2,34 @@ package com.bmd.learnspringboot.controller;
 
 
 import com.bmd.learnspringboot.middleware.UserAuth;
+import com.bmd.learnspringboot.model.quiz.Quiz;
 import com.bmd.learnspringboot.repositories.LoginRepository;
+import com.bmd.learnspringboot.service.QuizService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 @RestController
 @CrossOrigin
 @RequestMapping("/authStudent")
 public class StudentController {
 
-    @Autowired
-    private LoginRepository loginRepository;
+    private final LoginRepository loginRepository;
+
+    private final UserAuth userAuth;
+
+    private final QuizService quizService;
 
     @Autowired
-    private UserAuth userAuth;
+    public StudentController(LoginRepository loginRepository,UserAuth userAuth, QuizService quizService) {
+        this.loginRepository = loginRepository;
+        this.userAuth = userAuth;
+        this.quizService = quizService;
+    }
 
     @GetMapping("/getDetails/{username}")
     private ResponseEntity<?> getStudentDetails(@PathVariable final String username) {
@@ -32,6 +43,20 @@ public class StudentController {
             HashMap<String,String> resp = new HashMap<>();
             resp.put("message","Unauthorized Access");
             return  ResponseEntity.status(401).body(resp);
+        }
+    }
+
+    @GetMapping("/getQuizzes/{course_id}")
+    private ResponseEntity<?> getQuizzes(@PathVariable final String course_id) {
+        List<Quiz> quizList = quizService.getByCourse_id(course_id);
+        if(quizList.size()>0){
+            List<Map<String, String>> quizOfCourse = quizService.getQuizInfoFromListOfQuizzes(quizList);
+            return ResponseEntity.status(200).body(quizOfCourse);
+
+        }else{
+            HashMap<String,String> resp = new HashMap<>();
+            resp.put("message","No quizzes found");
+            return  ResponseEntity.status(404).body(resp);
         }
     }
 }
