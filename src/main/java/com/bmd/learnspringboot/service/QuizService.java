@@ -23,6 +23,9 @@ public class QuizService {
     public List<Quiz> getByCourse_id(String course_id) {
         return quizRepository.getQuizByCourse_id(course_id);
     }
+    public Quiz getById(String id) {
+        return quizRepository.findById(id).orElse(null);
+    }
     public List<Map<String, String>> getQuizInfoFromListOfQuizzes(List<Quiz> quizList){
         List<Map<String, String>> quizInfoList = new ArrayList<>();
         for (Quiz quiz : quizList) {

@@ -80,7 +80,10 @@ public class StudentController {
             @Override
             public void addCorsMappings(CorsRegistry registry) {
                 WebMvcConfigurer.super.addCorsMappings(registry);
-                registry.addMapping("/").allowedMethods("*").allowedOrigins("http://34.125.151.233:3000/");
+                registry.addMapping("/").
+                        allowedMethods("*").
+                        allowedOrigins("http://34.125.151.233:3000/").
+                        allowedHeaders("Authorization");
             }
         };
     }
