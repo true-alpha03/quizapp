@@ -14,7 +14,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-@CrossOrigin(origins="*",allowedHeaders = "*")
+@CrossOrigin
 @RestController
 @RequestMapping("/authStudent")
 public class StudentController {
@@ -61,7 +61,8 @@ public class StudentController {
                 List<Map<String, String>> quizOfCourse = quizService.getQuizInfoFromListOfQuizzes(quizList);
                 return ResponseEntity.status(200).headers(responseHeaders).body(quizOfCourse);
 
-            }else{
+            }
+            else{
                 HashMap<String,String> resp = new HashMap<>();
                 resp.put("message","No quizzes found");
                 return  ResponseEntity.status(404).body(resp);
