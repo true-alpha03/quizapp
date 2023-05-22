@@ -22,8 +22,8 @@ public class UserAuth implements HandlerInterceptor {
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) {
 
         String username = request.getRequestURI().substring(request.getRequestURI().lastIndexOf("/") + 1);
-        logger.info(username);
-        logger.info(jwtUtil.userTokenList.get(username));
+        logger.debug(username);
+        logger.debug(jwtUtil.userTokenList.get(username));
         returnVar = (request.getHeaders("authorization").nextElement().substring(7)).equals(jwtUtil.userTokenList.get(username));
         return true;
     }
