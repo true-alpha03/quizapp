@@ -6,6 +6,7 @@ import com.bmd.learnspringboot.model.quiz.Quiz;
 import com.bmd.learnspringboot.repositories.LoginRepository;
 import com.bmd.learnspringboot.service.QuizService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -34,25 +35,31 @@ public class StudentController {
     @GetMapping("/getDetails/{username}")
     private ResponseEntity<?> getStudentDetails(@PathVariable final String username) {
         System.out.println(userAuth.returnVar);
+        HttpHeaders responseHeaders = new HttpHeaders();
+        responseHeaders.set("Access-Control-Allow-Origin","*");
+        responseHeaders.set("Access-Control-Allow-Methods","*");
         if ((userAuth.returnVar).equals(true)) {
 
-            return ResponseEntity.status(200).body(loginRepository.getByUsername(username));
+            return ResponseEntity.status(200).headers(responseHeaders).body(loginRepository.getByUsername(username));
         }
         else {
 
             HashMap<String,String> resp = new HashMap<>();
             resp.put("message","Unauthorized Access");
-            return  ResponseEntity.status(401).body(resp);
+            return  ResponseEntity.status(401).headers(responseHeaders).body(resp);
         }
     }
 
     @GetMapping("/getQuizzes/{course_id}/{username}")
     private ResponseEntity<?> getQuizzes(@PathVariable final String course_id, @PathVariable final String username){
+        HttpHeaders responseHeaders = new HttpHeaders();
+        responseHeaders.set("Access-Control-Allow-Origin","*");
+        responseHeaders.set("Access-Control-Allow-Methods","*");
         if ((userAuth.returnVar).equals(true)) {
             List<Quiz> quizList = quizService.getByCourse_id(course_id);
             if(quizList.size()>0){
                 List<Map<String, String>> quizOfCourse = quizService.getQuizInfoFromListOfQuizzes(quizList);
-                return ResponseEntity.status(200).body(quizOfCourse);
+                return ResponseEntity.status(200).headers(responseHeaders).body(quizOfCourse);
 
             }else{
                 HashMap<String,String> resp = new HashMap<>();
@@ -64,7 +71,7 @@ public class StudentController {
 
             HashMap<String,String> resp = new HashMap<>();
             resp.put("message","Unauthorized Access");
-            return  ResponseEntity.status(401).body(resp);
+            return  ResponseEntity.status(401).headers(responseHeaders).body(resp);
         }
 
     }
