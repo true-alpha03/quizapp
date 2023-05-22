@@ -46,17 +46,26 @@ public class StudentController {
         }
     }
 
-    @GetMapping("/getQuizzes/{course_id}")
-    private ResponseEntity<?> getQuizzes(@PathVariable final String course_id) {
-        List<Quiz> quizList = quizService.getByCourse_id(course_id);
-        if(quizList.size()>0){
-            List<Map<String, String>> quizOfCourse = quizService.getQuizInfoFromListOfQuizzes(quizList);
-            return ResponseEntity.status(200).body(quizOfCourse);
+    @GetMapping("/getQuizzes/{course_id}/{username}")
+    private ResponseEntity<?> getQuizzes(@PathVariable final String course_id, @PathVariable final String username){
+        if ((userAuth.returnVar).equals(true)) {
+            List<Quiz> quizList = quizService.getByCourse_id(course_id);
+            if(quizList.size()>0){
+                List<Map<String, String>> quizOfCourse = quizService.getQuizInfoFromListOfQuizzes(quizList);
+                return ResponseEntity.status(200).body(quizOfCourse);
 
-        }else{
-            HashMap<String,String> resp = new HashMap<>();
-            resp.put("message","No quizzes found");
-            return  ResponseEntity.status(404).body(resp);
+            }else{
+                HashMap<String,String> resp = new HashMap<>();
+                resp.put("message","No quizzes found");
+                return  ResponseEntity.status(404).body(resp);
+            }
         }
+        else {
+
+            HashMap<String,String> resp = new HashMap<>();
+            resp.put("message","Unauthorized Access");
+            return  ResponseEntity.status(401).body(resp);
+        }
+
     }
 }

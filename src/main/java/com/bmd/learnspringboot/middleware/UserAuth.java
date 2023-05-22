@@ -25,7 +25,6 @@ public class UserAuth implements HandlerInterceptor {
         logger.info(username);
         logger.info(jwtUtil.userTokenList.get(username));
         returnVar = (request.getHeaders("authorization").nextElement().substring(7)).equals(jwtUtil.userTokenList.get(username));
-
         return true;
     }
 }
