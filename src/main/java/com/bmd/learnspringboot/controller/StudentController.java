@@ -6,9 +6,12 @@ import com.bmd.learnspringboot.model.quiz.Quiz;
 import com.bmd.learnspringboot.repositories.LoginRepository;
 import com.bmd.learnspringboot.service.QuizService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Bean;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.config.annotation.CorsRegistry;
+import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 import java.util.HashMap;
 import java.util.List;
@@ -30,18 +33,9 @@ public class StudentController {
         this.userAuth = userAuth;
         this.quizService = quizService;
     }
-    @CrossOrigin(origins = "http://34.125.151.233:3000",
-                allowCredentials = "true",
-                maxAge = 3600,
-            allowedHeaders = {"Authorization", "Content-Type", "Accept", "Cache-Control", "X-Requested-With", "Access-Control-Allow-Origin", "Access-Control-Allow-Headers", "Origin"}
-    )
     @GetMapping("/getDetails/{username}")
     private ResponseEntity<?> getStudentDetails(@PathVariable final String username) {
         System.out.println(userAuth.returnVar);
-//        HttpHeaders responseHeaders = new HttpHeaders();
-//        responseHeaders.set("Access-Control-Allow-Origin","http://34.125.151.233:3000");
-//        responseHeaders.set("Access-Control-Allow-Methods","GET");
-//        responseHeaders.set("withCredentials","true");
         if ((userAuth.returnVar).equals(true)) {
 
             return ResponseEntity.status(200).body(loginRepository.getByUsername(username));
@@ -79,5 +73,15 @@ public class StudentController {
             return  ResponseEntity.status(401).headers(responseHeaders).body(resp);
         }
 
+    }
+    @Bean
+    public WebMvcConfigurer configur(){
+        return new WebMvcConfigurer() {
+            @Override
+            public void addCorsMappings(CorsRegistry registry) {
+                WebMvcConfigurer.super.addCorsMappings(registry);
+                registry.addMapping("/").allowedMethods("*").allowedOrigins("http://34.125.151.233:3000/");
+            }
+        };
     }
 }
