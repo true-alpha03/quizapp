@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -36,9 +37,7 @@ public class TestController {
             List<Map<String, String>> quizOfCourse = quizService.getQuizInfoFromListOfQuizzes(quizList);
             return ResponseEntity.status(200).body(quizOfCourse);
         }else{
-            HashMap<String,String> resp = new HashMap<>();
-            resp.put("message","No quizzes found");
-            return  ResponseEntity.status(404).body(resp);
+            return  ResponseEntity.status(200).body(new ArrayList<>());
         }
     }
 }
