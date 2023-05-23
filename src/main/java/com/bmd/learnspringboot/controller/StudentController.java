@@ -6,12 +6,9 @@ import com.bmd.learnspringboot.model.quiz.Quiz;
 import com.bmd.learnspringboot.repositories.LoginRepository;
 import com.bmd.learnspringboot.service.QuizService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Bean;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.servlet.config.annotation.CorsRegistry;
-import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 import java.util.HashMap;
 import java.util.List;
@@ -19,6 +16,7 @@ import java.util.Map;
 
 @RestController
 @RequestMapping("/authStudent")
+@CrossOrigin
 public class StudentController {
 
     private final LoginRepository loginRepository;
@@ -47,7 +45,6 @@ public class StudentController {
             return  ResponseEntity.status(401).body(resp);
         }
     }
-
     @GetMapping("/getQuizzes/{course_id}/{username}")
     private ResponseEntity<?> getQuizzes(@PathVariable final String course_id, @PathVariable final String username){
         HttpHeaders responseHeaders = new HttpHeaders();
@@ -73,18 +70,5 @@ public class StudentController {
             return  ResponseEntity.status(401).headers(responseHeaders).body(resp);
         }
 
-    }
-    @Bean
-    public WebMvcConfigurer configur(){
-        return new WebMvcConfigurer() {
-            @Override
-            public void addCorsMappings(CorsRegistry registry) {
-                WebMvcConfigurer.super.addCorsMappings(registry);
-                registry.addMapping("/").
-                        allowedMethods("*").
-                        allowedOrigins("http://34.125.151.233:3000/").
-                        allowedHeaders("Authorization");
-            }
-        };
     }
 }
