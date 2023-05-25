@@ -3,6 +3,7 @@ package com.bmd.learnspringboot;
 import com.bmd.learnspringboot.model.quiz.Question;
 import com.bmd.learnspringboot.model.quiz.Quiz;
 import com.bmd.learnspringboot.model.quiz.Section;
+import com.bmd.learnspringboot.repositories.QuizRepository;
 import com.bmd.learnspringboot.service.LoginService;
 import com.bmd.learnspringboot.service.QuizService;
 import org.slf4j.Logger;
@@ -11,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDateTime;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -24,6 +26,8 @@ public class TestController {
     private final LoginService loginService;
     @Autowired
     private QuizService quizService;
+    @Autowired
+    private QuizRepository quizRepository;
     @Autowired
     public TestController(LoginService loginService) {
         this.loginService = loginService;
@@ -39,6 +43,12 @@ public class TestController {
             return  ResponseEntity.status(200).body(new ArrayList<>());
         }
     }
+
+    @GetMapping("/api")
+    public ResponseEntity<?> dateQuiz(@RequestParam LocalDateTime start,@RequestParam LocalDateTime end){
+        return ResponseEntity.ok(quizRepository.getQuizByPublish_dateBetween(start, end));
+    }
+
 
     @GetMapping("/test")
     public ResponseEntity<?> fun(@RequestParam String quizId){
@@ -62,4 +72,5 @@ public class TestController {
         quiz.setSections(sections);
         return quiz;
     }
+
 }
