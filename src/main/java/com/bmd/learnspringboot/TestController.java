@@ -44,10 +44,10 @@ public class TestController {
         }
     }
 
-    @GetMapping("/api")
-    public ResponseEntity<?> dateQuiz(@RequestParam LocalDateTime start,@RequestParam LocalDateTime end){
-        return ResponseEntity.ok(quizRepository.getQuizByPublish_dateBetween(start, end));
-    }
+//    @GetMapping("/api")
+//    public ResponseEntity<?> dateQuiz(@RequestParam LocalDateTime start,@RequestParam LocalDateTime end){
+//        return ResponseEntity.ok(quizRepository.getQuizByPublish_dateBetween(start, end));
+//    }
 
 
     @GetMapping("/test")
