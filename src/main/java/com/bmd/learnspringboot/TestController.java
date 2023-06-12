@@ -44,11 +44,6 @@ public class TestController {
         }
     }
 
-//    @GetMapping("/api")
-//    public ResponseEntity<?> dateQuiz(@RequestParam LocalDateTime start,@RequestParam LocalDateTime end){
-//        return ResponseEntity.ok(quizRepository.getQuizByPublish_dateBetween(start, end));
-//    }
-
 
     @GetMapping("/test")
     public ResponseEntity<?> fun(@RequestParam String quizId){
@@ -71,6 +66,11 @@ public class TestController {
         }
         quiz.setSections(sections);
         return quiz;
+    }
+
+    @GetMapping("/test/calendar")
+    public  ResponseEntity<?> getAllQuiz(){
+        return ResponseEntity.ok(quizService.getQuizInfoForCalendar(quizRepository.findAll()));
     }
 
 }

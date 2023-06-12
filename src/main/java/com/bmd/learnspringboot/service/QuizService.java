@@ -26,6 +26,8 @@ public class QuizService {
     public Quiz getById(String id) {
         return quizRepository.findById(id).orElse(null);
     }
+
+    //This function works once you are inside a particular course
     public List<Map<String, String>> getQuizInfoFromListOfQuizzes(List<Quiz> quizList){
         List<Map<String, String>> quizInfoList = new ArrayList<>();
         for (Quiz quiz : quizList) {
@@ -38,6 +40,18 @@ public class QuizService {
             quizInfo.put("quiz_end_time", String.valueOf(quiz.getClosing_date()));
             quizInfo.put("quiz_duration", String.valueOf(quiz.getDuration()));
             quizInfo.put("quiz_isPasswordProtected", String.valueOf(quiz.is_password_protected()));
+            quizInfoList.add(quizInfo);
+        }
+        return quizInfoList;
+    }
+
+    public List<Map<String, String>> getQuizInfoForCalendar(List<Quiz> quizList){
+        List<Map<String, String>> quizInfoList = new ArrayList<>();
+        for (Quiz quiz : quizList) {
+            Map<String, String> quizInfo = new HashMap<>();
+            quizInfo.put("quiz_name", quiz.getName()+" - "+quiz.getCourse_id());
+            quizInfo.put("quiz_start_time", String.valueOf(quiz.getPublish_date()));
+            quizInfo.put("quiz_duration", String.valueOf(quiz.getDuration()));
             quizInfoList.add(quizInfo);
         }
         return quizInfoList;

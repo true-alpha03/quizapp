@@ -11,7 +11,7 @@ import java.util.Optional;
 public interface QuizRepository extends MongoRepository<Quiz, String> {
     @Query("{'course_id': ?0}")
     List<Quiz> getQuizByCourse_id(String course_id);
-    List<Quiz> getQuizByPublish_dateBetween(LocalDateTime start, LocalDateTime end);
     Optional<Quiz> findById(String id);
+    List<Quiz> findAll();
 
 }
