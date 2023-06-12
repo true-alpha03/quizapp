@@ -68,7 +68,7 @@ public class TestController {
         return quiz;
     }
 
-    @GetMapping("/test/calendar")
+    @GetMapping("/test/calendar/getall")
     public  ResponseEntity<?> getAllQuiz(){
         return ResponseEntity.ok(quizService.getQuizInfoForCalendar(quizRepository.findAll()));
     }
