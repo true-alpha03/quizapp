@@ -9,6 +9,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.util.List;
+
 @AllArgsConstructor
 @NoArgsConstructor
 @Setter
@@ -20,11 +22,12 @@ public class Admin {
     private String id;
     private String username;
     private String pass;
-    private String course_id;
+    private List<AdminCourse> courses;
+    private String name;
+    private String url;
 
-    public Admin(String username,String pass, String course_id) {
-        this.username = username;
-        this.pass = pass;
-        this.course_id = course_id;
-}
+    @Override
+    public String toString(){
+        return username+" "+pass+" "+"\n"+courses+"\n "+name+" "+url;
+    }
 }

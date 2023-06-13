@@ -13,4 +13,5 @@ import com.bmd.learnspringboot.model.Admin;
 public interface AdminRepository extends MongoRepository<Admin,String>{
     @Query("{ 'username' : ?0, 'pass' : ?1 }")
     List<Admin> findByusernameandpassword(String username, String password);
+    Admin getAdminByUsername(String username);
 }
