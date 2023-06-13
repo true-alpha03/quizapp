@@ -27,4 +27,12 @@ public class Quiz {
     private LocalDateTime closing_date;
     private int duration;
     private List<Section> sections;
+
+    public Quiz(String name, String course_id, LocalDateTime publish_date, int duration) {
+        this.name = name;
+        this.course_id = course_id;
+        this.publish_date = publish_date;
+        this.duration = duration;
+    }
 }
+
