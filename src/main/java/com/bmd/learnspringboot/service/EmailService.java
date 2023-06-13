@@ -33,7 +33,7 @@ public class EmailService {
         String template = "reset"; // Name of your HTML email template file without the extension
         // Create a Thymeleaf context with any required variables for the template
         Context context = new Context();
-        context.setVariable("resetUrl", "http://34.125.151.233:3000/resetpass?resetToken="+token);
+        context.setVariable("resetUrl", "http://34.125.242.142:3000/resetpass?resetToken="+token);
         try {
             sendResetPasswordEmail(to, subject, template, context);
             logger.debug("Email sent successfully to : "+email);
